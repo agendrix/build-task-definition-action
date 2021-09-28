@@ -1,0 +1,18 @@
+{
+    "plugins": ["jest", "@typescript-eslint"],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "ecmaVersion": 9,
+      "sourceType": "module",
+      "project": "./tsconfig.json"
+    },
+    "rules": {
+      "semi": "off",
+      "@typescript-eslint/semi": ["error"]
+    },
+    "env": {
+      "node": true,
+      "es6": true,
+      "jest/globals": true
+    }
+  }
