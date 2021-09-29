@@ -3,13 +3,13 @@
   "version": "0.0.0",
   "private": true,
   "description": "TypeScript template action",
-  "main": "dist/index.js",
+  "main": "lib/src/main.js",
   "scripts": {
     "build": "tsc",
     "format": "prettier --write **/*.ts",
     "format-check": "prettier --check **/*.ts",
     "lint": "eslint src/**/*.ts helpers/**/*.ts",
-    "package": "ncc build --source-map --license licenses.txt",
+    "package": "ncc build --no-source-map-register --license licenses.txt",
     "test": "jest --passWithNoTests",
     "copyfiles": "copyfiles -f -e '**/*.js' -e '**/*.ts' -e '**/*.yml' src/* ./dist",
     "all": "yarn build && yarn format && yarn lint && yarn package && yarn copyfiles && yarn test"
