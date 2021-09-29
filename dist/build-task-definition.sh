@@ -38,7 +38,10 @@ pretty_print_task_definition() {
 }
 
 container_definitions=$(sed "s+<IMAGE>+$INPUT_IMAGE+g;" "$INPUT_CONTAINER_DEFINITIONS_PATH")
-container_definitions=$(echo "$container_definitions" | jq '.[].portMappings |= map(if .hostPort == null then .hostPort = .containerPort else . end)')
+container_definitions=$(
+  echo "$container_definitions" | \
+  jq '. | map(if has("portMappings") then .portMappings |= map(if .hostPort == null then .hostPort = .containerPort else . end) else . end)'
+)
 
 if [ -f "$INPUT_SECRETS_PATH" ]; then
   echo "Appending secrets for service $INPUT_SERVICE"
