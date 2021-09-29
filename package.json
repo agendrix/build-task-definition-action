@@ -3,15 +3,16 @@
   "version": "0.0.0",
   "private": true,
   "description": "TypeScript template action",
-  "main": "lib/src/main.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
     "format": "prettier --write **/*.ts",
     "format-check": "prettier --check **/*.ts",
     "lint": "eslint src/**/*.ts helpers/**/*.ts",
     "package": "ncc build --source-map --license licenses.txt",
-    "test": "jest",
-    "all": "yarn build && yarn format && yarn lint && yarn package && yarn test"
+    "test": "jest --passWithNoTests",
+    "copyfiles": "copyfiles -f -e '**/*.js' -e '**/*.ts' -e '**/*.yml' src/* ./dist",
+    "all": "yarn build && yarn format && yarn lint && yarn package && yarn copyfiles && yarn test"
   },
   "repository": {
     "type": "git",
@@ -28,6 +29,7 @@
     "@types/node": "^14.14.9",
     "@typescript-eslint/parser": "^4.8.1",
     "@vercel/ncc": "^0.27.0",
+    "copyfiles": "^2.4.1",
     "eslint": "^7.17.0",
     "eslint-plugin-github": "^4.1.1",
     "eslint-plugin-jest": "^24.1.3",

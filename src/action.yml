@@ -1,0 +1,34 @@
+name: Build Task Definition from ECS Service
+description: Build a task-definition from merging a given container-definitions JSON file into the task-definition of a running service on ECS.
+inputs:
+  cluster:
+    description: Name of the cluster
+    required: true
+  service:
+    description: Name of the service
+    required: true
+  container_definitions_path:
+    description: Path to your container definitions JSON file
+    required: true
+  secrets_path:
+    description: |
+      Path to a JSON file containing the list of secrets to append.
+      Use this if your secrets are in a separate file than your container-definitions.
+      This will replace all secrets fields from you container-definitions file.
+    required: false
+  image:
+    description: |
+      URI of the image to use.
+      Use this if you need to dynamically change the name of an image in your container-definitions file.
+      This will replace <IMAGE> strings from you container-definitions file.
+    required: false
+outputs:
+  path:
+    description: Path to the generated task-definition file"
+  should_deploy:
+    description: True if the current task definition is different than the one currently used by the given ECS service
+  current_task_definition_path:
+    description: Path to a copy of the current stable task-definition running on the cluster
+runs:
+  using: node12
+  main: dist/main.js

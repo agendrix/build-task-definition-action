@@ -1,18 +1,40 @@
 import * as core from "@actions/core";
-import { wait } from "./wait";
+import { exec } from "@actions/exec";
+import * as path from "path";
+import { validateRequiredInputs } from "../helpers/action/validateRequiredInputs";
 
-async function run(): Promise<void> {
+async function run() {
   try {
-    const ms: string = core.getInput("milliseconds");
-    core.debug(`Waiting ${ms} milliseconds ...`); // debug is only output if you set the secret `ACTIONS_RUNNER_DEBUG` to true
+    validateRequiredInputs([
+      "cluster",
+      "service",
+      "container_definitions_path"
+    ]);
 
-    core.debug(new Date().toTimeString());
-    await wait(parseInt(ms, 10));
-    core.debug(new Date().toTimeString());
+    const cluster = core.getInput("cluster", { required: true });
+    const service = core.getInput("service", { required: true });
+    const getRunningTaskDefinitionScript = path.join(
+      __dirname,
+      "../helpers/aws/get-running-task-definition.sh"
+    );
 
-    core.setOutput("time", new Date().toTimeString());
+    let stableTaskDefArn = "";
+    await exec(
+      `sh ${getRunningTaskDefinitionScript} --cluster "${cluster}" --service "${service}"`,
+      undefined,
+      {
+        listeners: {
+          stdout: (data: Buffer) => {
+            stableTaskDefArn += data.toString();
+          }
+        }
+      }
+    );
+
+    process.env.CURRENT_STABLE_TASKDEF_ARN = stableTaskDefArn;
+    await exec(`sh ${path.join(__dirname, "build-task-definition.sh")}`);
   } catch (error) {
-    core.setFailed(error.message);
+    core.setFailed(`Action failed with error ${error}`);
   }
 }
 
