@@ -28,8 +28,8 @@ deploy-app-cache-job:
 
     - name: Create ${{ matrix.service }} task definition
       id: task-definition
-      run: sh .github/actions/aws/build-task-definition.sh
-      env:
+      uses: agendrix/build-task-definition-action@v1.0.0
+      with:
         cluster: ${{ env.CLUSTER_NAME }}
         service: ${{ matrix.service }}
         container_definitions_path: container-definitions/${{ matrix.service }}.json
