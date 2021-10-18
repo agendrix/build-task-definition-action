@@ -18,7 +18,7 @@
     "type": "git",
     "url": "git+https://github.com/actions/typescript-action.git"
   },
-  "author": "",
+  "author": "Eric Matte <e.matte@agendrix.com>, Louis Boudreau <l.boudreau@agendrix.com>",
   "license": "MIT",
   "dependencies": {
     "@actions/core": "^1.2.6",
