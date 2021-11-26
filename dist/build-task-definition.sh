@@ -37,7 +37,7 @@ pretty_print_task_definition() {
   echo "$task_definition"
 }
 
-container_definitions=$(sed "s+<IMAGE>+$INPUT_IMAGE+g;" "$INPUT_CONTAINER_DEFINITIONS_PATH")
+container_definitions=$(sed -e "s+<IMAGE>+$INPUT_IMAGE+g;" -e "s+<CLUSTER>+$INPUT_CLUSTER+g;" "$INPUT_CONTAINER_DEFINITIONS_PATH")
 container_definitions=$(
   echo "$container_definitions" | \
   jq '. | map(if has("portMappings") then .portMappings |= map(if .hostPort == null then .hostPort = .containerPort else . end) else . end)'
