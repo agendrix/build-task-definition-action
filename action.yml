@@ -1,6 +1,11 @@
 name: Build Task Definition from ECS Service
 description: Build a task-definition from merging a given container-definitions JSON file into the task-definition of a running service on ECS.
 inputs:
+  region:
+    description: | 
+      Region in which the ECS service log group is present
+      This will also replace <REGION> strings from you container-definitions file.
+    required: true
   cluster:
     description: | 
       Name of the cluster
