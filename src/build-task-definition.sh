@@ -18,16 +18,16 @@ set_outputs() {
   task_definition=$2
   running_stable_task_definition=$3
 
-  echo "::set-output name=should_deploy::$should_deploy"
+  echo "should_deploy=$should_deploy" >> "$GITHUB_OUTPUT"
 
   output_path="/tmp/task-definition.$INPUT_SERVICE.json"
   echo "$task_definition" > "$output_path"
-  echo "::set-output name=path::$output_path"
+  echo "path=$output_path" >> "$GITHUB_OUTPUT"
 
   if [ -n "$running_stable_task_definition" ]; then
     stable_output_path="/tmp/task-definition.stable.json"
     echo "$running_stable_task_definition" > "$stable_output_path"
-    echo "::set-output name=current_stable_task_definition_path::$stable_output_path"
+    echo "current_stable_task_definition_path=$stable_output_path" >> "$GITHUB_OUTPUT"
   fi
 }
 
