@@ -2,7 +2,7 @@ name: Build Task Definition from ECS Service
 description: Build a task-definition from merging a given container-definitions JSON file into the task-definition of a running service on ECS.
 inputs:
   cluster:
-    description: | 
+    description: |
       Name of the cluster
       Used to fetch the current stable task definition.
       This will also replace <CLUSTER> strings from you container-definitions file.
@@ -33,5 +33,5 @@ outputs:
   current_task_definition_path:
     description: Path to a copy of the current stable task-definition running on the cluster
 runs:
-  using: node16
+  using: node20
   main: dist/index.js
